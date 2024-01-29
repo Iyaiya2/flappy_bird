@@ -33,3 +33,19 @@ Fin de jeu :
 Fonction gameOver pour arrêter le jeu et afficher un message de fin.
 Suppression de l'écouteur d'événement pour la touche espace.
 Modification de la classe du sol pour l'arrêter.
+Barème
+faites fonctionner le jeu grâce au code existant OU en implémentant votre propre logique
+attention à vos commits ! Je les regarderai minutieusement Nommage de commits, contenu de commits, et similmarité avec ceux de vos camarades
+ajoutez un système de score
+les visuels sont clean
+implémentez des tests unitaires sur au moins 2 fonctions
+points bonus : pour des initiatives de fonctionnalités nouvelles !
+Mot de la fin
+Ce serait trop scolaire de vous dire "chacun pour soi, vous rendez en solo". La réalité du métier c'est qu'il faut s'entraider. Donc bossez à plusieurs pour résoudre des problèmes, mais attention : chacun doit remplir son propre repository et je ne veux pas de copié collé d'un projet à l'autre.
+
+Pensez à bien relire ce que vous faites pour trouver ce qui cloche, et faites des recherches sur internet !
+
+Faites beaucoup de commits pour :
+
+ne pas perdre votre avancement (s'aventurer dans un plan qui ne marche finalement pas au bout de plusieurs heures, et qui a défiguré tout votre projet) -> pouvoir revenir en arrière
+que je puisse voir comment vous avez avancé, votre raisonnement, et pouvoir vous noter.
