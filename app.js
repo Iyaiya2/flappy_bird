@@ -1,111 +1,129 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // État et variables du jeu
-  const bird = document.querySelector('.bird');
-  const gameDisplay = document.querySelector('.game-display');
-  const ground = document.querySelector('.ground-moving');
+    // État et variables du jeu
+    const bird = document.querySelector('.bird');
+    const gameDisplay = document.querySelector('.game-display');
+    const ground = document.querySelector('.ground-moving');
 
-  let birdLeft = 220;
-  let birdBottom = 100;
-  let gravity = 3;
-  let isGameOver = false;
-  let gap = 430;
-  let score = 0;
+    let birdLeft = 220;
+    let birdBottom = 450;
+    let gravity = 3;
+    let isGameOver = false;
+    let gap = 500;
+    let score = 0;
 
-  // Fonctions du jeu
-  function startGame() {
-      // définir la position de l'oiseau au début de la partie
-      if (isGameOver) return;
+    // Fonction pour sauvegarder le score
+    function saveScore(score) {
+        localStorage.setItem('flappy_bird_highscore', score);
+    }
 
-      birdBottom -= gravity;
-      bird.style.bottom = birdBottom + 'px';
-      bird.style.left = birdLeft + 'px';
+    // Fonction pour charger le score enregistré
+    function loadScore() {
+        return localStorage.getItem('flappy_bird_highscore') || 0;
+    }
 
-      // Ajoutez cette condition pour éviter que l'oiseau ne descende indéfiniment
-      if (birdBottom < 0) {
-          birdBottom = 0;
-      }
-  }
+    // Fonctions du jeu
+    function startGame() {
+        // définir la position de l'oiseau au début de la partie
+        if (isGameOver) return;
 
-  let gameTimerId = setInterval(startGame, 20);
+        birdBottom -= gravity;
+        bird.style.bottom = birdBottom + 'px';
+        bird.style.left = birdLeft + 'px';
 
-  function control(e) {
-      // utiliser e (event) pour cibler la barre espace
-      // Mots clés qu'on avait trouvé pour faire une recherche 
-      // sur comment cibler un espace : "key, space, eventListeners"
+        // Ajoutez cette condition pour éviter que l'oiseau ne descende indéfiniment
+        if (birdBottom < 0) {
+            birdBottom = 0;
+        }
+    }
 
-      // quand la touche de contrôle est utilisée, l'oiseau saute (jump())
-      if (e.keyCode === 13) { // 13 corresponds to the Enter key
-          jump();
-      }
-  }
+    let gameTimerId = setInterval(startGame, 20);
 
-  function jump() {
-      // attention à bien faire en sorte que l'oiseau 
-      // ne puisse sauter que quand il n'a pas dépassé le border-top
-      if (birdBottom < 500) {
-          birdBottom += 50;
-          bird.style.bottom = birdBottom + 'px';
-      }
-  }
+    function control(e) {
+        // utiliser e (event) pour cibler la barre espace
+        // Mots clés qu'on avait trouvé pour faire une recherche 
+        // sur comment cibler un espace : "key, space, eventListeners"
 
-  document.addEventListener('keydown', control);
+        // quand la touche de contrôle est utilisée, l'oiseau saute (jump())
+        if (e.keyCode === 13) { // 13 corresponds to the Enter key
+            jump();
+        }
+    }
 
-  function generateObstacle() {
-      if (isGameOver) return;
+    function jump() {
+        // attention à bien faire en sorte que l'oiseau 
+        // ne puisse sauter que quand il n'a pas dépassé le border-top
+        if (birdBottom < 500) {
+            birdBottom += 50;
+            bird.style.bottom = birdBottom + 'px';
+        }
+    }
 
-      let obstacleLeft = 500;
-      let randomHeight = Math.random() * 150; // mettre une hauteur random
-      let obstacleBottom = randomHeight;
+    document.addEventListener('keydown', control);
 
-      // générer les obstacles avec document.createElement('div')
-      const obstacle = document.createElement('div');
-      const topObstacle = document.createElement('div');
+    function generateObstacle() {
+        if (isGameOver) return;
 
-      obstacle.classList.add('obstacle');
-      topObstacle.classList.add('topObstacle');
+        let obstacleLeft = 500;
+        let randomHeight = Math.random() * 150; // mettre une hauteur random
+        let obstacleBottom = randomHeight;
 
-      gameDisplay.appendChild(obstacle);
-      gameDisplay.appendChild(topObstacle);
+        // générer les obstacles avec document.createElement('div')
+        const obstacle = document.createElement('div');
+        const topObstacle = document.createElement('div');
 
-      obstacle.style.left = obstacleLeft + 'px';
-      topObstacle.style.left = obstacleLeft + 'px';
-      obstacle.style.bottom = obstacleBottom + 'px';
-      topObstacle.style.bottom = obstacleBottom + gap + 'px';
+        obstacle.classList.add('obstacle');
+        topObstacle.classList.add('topObstacle');
 
-      // Ajouter l'image à chaque obstacle
-      obstacle.style.backgroundImage = "url('assets/flappybird-pipe.png')";
-      topObstacle.style.backgroundImage = "url('assets/flappybird-pipe.png')";
+        gameDisplay.appendChild(obstacle);
+        gameDisplay.appendChild(topObstacle);
 
-      function moveObstacle() {
-          obstacleLeft -= 2; // ajuster la vitesse
-          obstacle.style.left = obstacleLeft + 'px';
-          topObstacle.style.left = obstacleLeft + 'px';
+        obstacle.style.left = obstacleLeft + 'px';
+        topObstacle.style.left = obstacleLeft + 'px';
+        obstacle.style.bottom = obstacleBottom + 'px';
 
-          // Si l'obstacle est hors de la vue, le supprimer et générer un nouveau
-          if (obstacleLeft < -60) {
-              gameDisplay.removeChild(obstacle);
-              gameDisplay.removeChild(topObstacle);
-              score++; // augmenter le score ici si nécessaire
-              generateObstacle();
-          }
+        // Positionnement de l'obstacle supérieur
+        topObstacle.style.bottom = obstacleBottom + gap + 'px';
 
-          // Vérifier la collision avec l'oiseau
-          if (
-              (birdBottom < obstacleBottom + 300 && birdBottom > obstacleBottom) &&
-              (obstacleLeft > 200 && obstacleLeft < 280)
-          ) {
-              gameOver();
-          }
-      }
+        // Ajouter l'image à chaque obstacle
+        obstacle.style.backgroundImage = "url('assets/flappybird-pipe.png')";
 
-      setInterval(moveObstacle, 20);
-  }
+        function moveObstacle() {
+            obstacleLeft -= 5; // ajuster la vitesse
+            obstacle.style.left = obstacleLeft + 'px';
+            topObstacle.style.left = obstacleLeft + 'px';
 
-  function gameOver() {
-      clearInterval(gameTimerId);
-      isGameOver = true;
-      alert('Game Over! Your score: ' + score);
-  }
+            // Si l'obstacle est hors de la vue, le supprimer et générer un nouveau
+            if (obstacleLeft < -60) {
+                gameDisplay.removeChild(obstacle);
+                gameDisplay.removeChild(topObstacle);
+                score++; // augmenter le score ici si nécessaire
+                generateObstacle();
+            }
 
-  generateObstacle(); // Commencer à générer des obstacles dès le début du jeu
+            // Vérifier la collision avec l'oiseau
+            if (
+                (birdBottom < obstacleBottom + 300 && birdBottom > obstacleBottom) &&
+                (obstacleLeft > 200 && obstacleLeft < 280)
+            ) {
+                gameOver();
+            }
+        }
+
+        setInterval(moveObstacle, 20);
+    }
+
+    function gameOver() {
+        clearInterval(gameTimerId);
+        isGameOver = true;
+        const currentScore = score;
+        const highScore = loadScore();
+        if (currentScore > highScore) {
+            saveScore(currentScore);
+            alert('New High Score! Your score: ' + currentScore);
+        } else {
+            alert('Game Over! Your score: ' + currentScore + ', High Score: ' + highScore);
+        }
+    }
+
+    generateObstacle(); // Commencer à générer des obstacles dès le début du jeu
 });
