@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const bird = document.querySelector(".bird");
   const gameDisplay = document.querySelector(".game-display");
   const ground = document.querySelector(".ground-moving");
+  const groundHeight = 150;
   const borderTop = 700;
 
   let birdLeft = 220;
@@ -34,6 +35,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Ajoutez cette condition pour éviter que l'oiseau ne descende indéfiniment
     if (birdBottom < 0) {
       birdBottom = 0;
+    }
+
+    if (birdBottom < groundHeight) {
+      gameOver();
     }
   }
 
@@ -111,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ) {
         gameOver();
       }
-      
+
       // L'oiseau se cogne avec l'obstacle du haut ?
       if (
         birdBottom > obstacleBottom + gap &&
