@@ -58,8 +58,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function generateObstacle() {
     if (isGameOver) return;
-    
-    let obstacleLeft = window.screen.width * 0.8;
+
+    let obstacleLeft = window.screen.width;
     let randomHeight = Math.random() * 150;
     let obstacleBottom = randomHeight;
 
@@ -89,12 +89,17 @@ document.addEventListener("DOMContentLoaded", () => {
       obstacle.style.left = obstacleLeft + "px";
       topObstacle.style.left = obstacleLeft + "px";
 
-      // Si l'obstacle est hors de la vue, le supprimer et générer un nouveau
       if (obstacleLeft < -60) {
-        gameDisplay.removeChild(obstacle);
-        gameDisplay.removeChild(topObstacle);
-        score++; // augmenter le score ici si nécessaire
-        generateObstacle();
+        if (
+          gameDisplay.contains(obstacle) &&
+          gameDisplay.contains(topObstacle)
+        ) {
+          gameDisplay.removeChild(obstacle);
+          gameDisplay.removeChild(topObstacle);
+
+          score++;
+          generateObstacle();
+        }
       }
 
       // Vérifier la collision avec l'oiseau
