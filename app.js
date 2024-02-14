@@ -102,10 +102,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      // Vérifier la collision avec l'oiseau
+      // L'oiseau se cogne avec l'obstacle du bas ?
       if (
         birdBottom < obstacleBottom + 300 &&
         birdBottom > obstacleBottom &&
+        obstacleLeft > 200 &&
+        obstacleLeft < 280
+      ) {
+        gameOver();
+      }
+      
+      // L'oiseau se cogne avec l'obstacle du haut ?
+      if (
+        birdBottom > obstacleBottom + gap &&
         obstacleLeft > 200 &&
         obstacleLeft < 280
       ) {
