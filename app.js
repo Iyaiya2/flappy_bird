@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const bird = document.querySelector('.bird');
     const gameDisplay = document.querySelector('.game-display');
     const ground = document.querySelector('.ground-moving');
+    const borderTop = 700
 
     let birdLeft = 220;
     let birdBottom = 450;
@@ -39,20 +40,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let gameTimerId = setInterval(startGame, 20);
 
     function control(e) {
-        // utiliser e (event) pour cibler la barre espace
-        // Mots clés qu'on avait trouvé pour faire une recherche 
-        // sur comment cibler un espace : "key, space, eventListeners"
+        const enterKey = 13
 
-        // quand la touche de contrôle est utilisée, l'oiseau saute (jump())
-        if (e.keyCode === 13) { // 13 corresponds to the Enter key
+        if (e.keyCode === enterKey) {
             jump();
         }
     }
 
     function jump() {
-        // attention à bien faire en sorte que l'oiseau 
-        // ne puisse sauter que quand il n'a pas dépassé le border-top
-        if (birdBottom < 500) {
+        if (birdBottom < borderTop) {
             birdBottom += 50;
             bird.style.bottom = birdBottom + 'px';
         }
