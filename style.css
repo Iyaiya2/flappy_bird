@@ -20,7 +20,7 @@ body {
 
 .ground-moving {
   position: absolute;
-  top: 580px;
+  bottom: 0;
   height: 150px;
   background-image: url("assets/bottom-background.png");
   background-repeat: repeat-x;
